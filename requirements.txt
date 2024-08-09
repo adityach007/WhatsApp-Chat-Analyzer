@@ -1,4 +1,4 @@
-re
+regex == 2022.7.9
 streamlit
 pandas
 numpy
