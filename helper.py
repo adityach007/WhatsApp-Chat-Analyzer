@@ -35,9 +35,8 @@ def Busy_user(df):
     return x, df
 
 def create_word_cloud(user_selected, df):
-
-    f = open('stop_hinglish.txt', 'r')
-    stop_words = f.read()
+    with open('stop_hinglish.txt', 'r') as f:
+        stop_words = f.read().splitlines()
 
     if user_selected != "Overall":
         df = df[df['user'] == user_selected]
@@ -46,15 +45,16 @@ def create_word_cloud(user_selected, df):
     temp = temp[temp['message'] != '<Media omitted>\n']
 
     def remove_stop_words(message):
-        y = []
-        for word in message.lower().split():
-            if word not in stop_words:
-                y.append(word)
-        return " ".join(y)
+        return " ".join([word for word in message.lower().split() if word not in stop_words])
+
+    temp['message'] = temp['message'].apply(remove_stop_words)
+    
+    words = temp['message'].str.cat(sep=" ").split()
+    word_freq = Counter(words)
 
     wc = WordCloud(width=500, height=500, min_font_size=10, background_color='white')
-    temp['message'] = temp['message'].apply(remove_stop_words)
-    df_wc = wc.generate(temp['message'].str.cat(sep=" "))
+    df_wc = wc.generate_from_frequencies(word_freq)
+
     return df_wc
 
 def most_common_words(user_selected, df):
