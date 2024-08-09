@@ -1,4 +1,4 @@
-regex == 2022.7.9
+regex
 streamlit
 pandas
 numpy
@@ -6,4 +6,5 @@ seaborn
 matplotlib
 urlextract
 wordcloud
+collections
 emoji==1.7.0
