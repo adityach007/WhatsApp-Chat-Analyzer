@@ -1,4 +1,4 @@
-regex
+re
 streamlit
 pandas
 numpy
